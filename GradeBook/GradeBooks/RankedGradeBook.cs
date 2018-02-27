@@ -17,31 +17,29 @@ namespace GradeBook.GradeBooks
             int totalStudents = Students.Count;
             if(totalStudents < 5)
             {
-                throw new Exception("Ranked Grading requires a minimum of 5 students to work");
+                throw new InvalidOperationException("Ranked Grading requires a minimum of 5 students to work");
             }
 
             int betterStudents = Students.Where(s => s.AverageGrade >= averageGrade).ToList().Count;
-
             double percentage = ((double)betterStudents / (double)totalStudents);
 
-            if(percentage <= 0.20)
-            {
-                return 'A';
-            }
-            else if (percentage <= 0.40)
-            {
-                return 'B';
-            }
-            else if (percentage <= 0.60)
-            {
-                return 'C';
-            }
-            else if (percentage <= 0.80)
-            {
-                return 'D';
-            }
+            if(percentage <= 0.20){ return 'A'; }
+            else if (percentage <= 0.40){ return 'B'; }
+            else if (percentage <= 0.60){ return 'C'; }
+            else if (percentage <= 0.80){ return 'D'; }
+            else return 'F';
+        }
 
-            return 'F';
+        public override void CalculateStatistics()
+        {
+            if (Students.Count < 5)
+            {
+                Console.WriteLine("Ranked grading requires at least 5 students with grades in order to properly calculate a student's overall grade.");
+            }
+            else
+            {
+                base.CalculateStatistics();
+            }
         }
     }
 }
